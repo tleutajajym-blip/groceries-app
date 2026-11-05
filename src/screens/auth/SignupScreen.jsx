@@ -1,190 +1,337 @@
-import React from "react";
 
-export default function SignInScreen() {
+import React, { useState } from "react";
+
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  ScrollView,
+  StatusBar,
+  Keyboard,
+} from "react-native";
+
+interface SignInScreenProps {
+  onContinue: (phone: string) => void;
+}
+
+export default function SignInScreen({
+  onContinue,
+}: SignInScreenProps) {
+  const [phone, setPhone] = useState("");
+
+  // Continue Button
+  const handleContinue = () => {
+    const cleanPhone = phone.replace(/\D/g, "");
+
+    if (cleanPhone.length < 10) {
+      Alert.alert(
+        "Invalid Phone Number",
+        "Please enter a valid phone number."
+      );
+      return;
+    }
+
+    Keyboard.dismiss();
+
+    // Send phone number to VerificationScreen
+    onContinue("+880" + cleanPhone);
+  };
+
+  // Google Login
+  const handleGoogle = () => {
+    Alert.alert(
+      "Google Login",
+      "Google authentication coming soon!"
+    );
+  };
+
+  // Facebook Login
+  const handleFacebook = () => {
+    Alert.alert(
+      "Facebook Login",
+      "Facebook authentication coming soon!"
+    );
+  };
+
   return (
-    <div style={styles.container}>
-      <div style={styles.statusBar}>
-        <span>9:41</span>
-        <span>▴ ◉ ▰</span>
-      </div>
+    <View style={styles.container}>
+      <StatusBar
+        backgroundColor="#FFFFFF"
+        barStyle="dark-content"
+      />
 
-      <div style={styles.imageSection}>
-        <img
-          src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800"
-          alt="Fresh groceries"
-          style={styles.image}
-        />
-      </div>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.scrollContent}
+      >
 
-      <div style={styles.content}>
-        <h1 style={styles.title}>
-          Get your groceries
-          <br />
-          with nectar
-        </h1>
+        {/* Grocery Image */}
 
-        <div style={styles.phoneRow}>
-          <span style={styles.flag}>🇧🇩</span>
-          <span style={styles.code}>+880</span>
-
-          <input
-            type="tel"
-            placeholder=""
-            style={styles.phoneInput}
+        <View style={styles.imageSection}>
+          <Image
+            source={{
+              uri: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800",
+            }}
+            style={styles.image}
+            resizeMode="cover"
           />
-        </div>
+        </View>
 
-        <p style={styles.socialText}>
-          Or connect with social media
-        </p>
+        {/* Main Content */}
 
-        <button
-          style={styles.googleButton}
-          onClick={() => alert("Continue with Google")}
-        >
-          <span style={styles.googleIcon}>G</span>
-          Continue with Google
-        </button>
+        <View style={styles.content}>
 
-        <button
-          style={styles.facebookButton}
-          onClick={() => alert("Continue with Facebook")}
-        >
-          <span style={styles.facebookIcon}>f</span>
-          Continue with Facebook
-        </button>
-      </div>
+          {/* Title */}
 
-      <div style={styles.homeIndicator}></div>
-    </div>
+          <Text style={styles.title}>
+            Get your groceries{"\n"}
+            with nectar
+          </Text>
+
+          {/* Phone Label */}
+
+          <Text style={styles.label}>
+            Phone Number
+          </Text>
+
+          {/* Phone Input */}
+
+          <View style={styles.phoneRow}>
+            <Text style={styles.flag}>
+              🇧🇩
+            </Text>
+
+            <Text style={styles.code}>
+              +880
+            </Text>
+
+            <TextInput
+              style={styles.phoneInput}
+              placeholder="Enter phone number"
+              placeholderTextColor="#AAAAAA"
+              keyboardType="phone-pad"
+              value={phone}
+              onChangeText={(value) =>
+                setPhone(
+                  value.replace(/\D/g, "").slice(0, 11)
+                )
+              }
+              maxLength={11}
+              returnKeyType="done"
+              onSubmitEditing={handleContinue}
+            />
+          </View>
+
+          {/* Continue Button */}
+
+          <TouchableOpacity
+            style={styles.continueButton}
+            onPress={handleContinue}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.continueText}>
+              Continue
+            </Text>
+          </TouchableOpacity>
+
+          {/* Social Text */}
+
+          <Text style={styles.socialText}>
+            Or connect with social media
+          </Text>
+
+          {/* Google Button */}
+
+          <TouchableOpacity
+            style={styles.googleButton}
+            onPress={handleGoogle}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.googleIcon}>
+              G
+            </Text>
+
+            <Text style={styles.buttonText}>
+              Continue with Google
+            </Text>
+          </TouchableOpacity>
+
+          {/* Facebook Button */}
+
+          <TouchableOpacity
+            style={styles.facebookButton}
+            onPress={handleFacebook}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.facebookIcon}>
+              f
+            </Text>
+
+            <Text style={styles.buttonText}>
+              Continue with Facebook
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+      </ScrollView>
+
+      {/* Home Indicator */}
+
+      <View style={styles.homeIndicator} />
+
+    </View>
   );
 }
 
-const styles = {
+// Styles
+
+const styles = StyleSheet.create({
+
   container: {
-    width: "100%",
-    maxWidth: "390px",
-    height: "844px",
-    margin: "0 auto",
+    flex: 1,
     backgroundColor: "#FFFFFF",
-    fontFamily: "Arial, sans-serif",
-    position: "relative",
-    overflow: "hidden",
-    color: "#181725",
   },
 
-  statusBar: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "12px 22px",
-    fontSize: "13px",
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: 35,
   },
 
   imageSection: {
-    height: "310px",
     width: "100%",
-    overflow: "hidden",
+    height: 310,
   },
 
   image: {
     width: "100%",
     height: "100%",
-    objectFit: "cover",
-    objectPosition: "center",
   },
 
   content: {
-    padding: "15px 20px",
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
 
   title: {
-    fontSize: "24px",
-    lineHeight: "1.35",
-    margin: "0 0 22px",
+    fontSize: 26,
+    lineHeight: 36,
     fontWeight: "bold",
+    color: "#181725",
+    marginBottom: 25,
+  },
+
+  label: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#181725",
+    marginBottom: 8,
   },
 
   phoneRow: {
-    display: "flex",
+    flexDirection: "row",
     alignItems: "center",
-    height: "42px",
-    borderBottom: "1px solid #E2E2E2",
-    gap: "10px",
+    height: 50,
+    borderBottomWidth: 1,
+    borderBottomColor: "#E2E2E2",
   },
 
   flag: {
-    fontSize: "20px",
+    fontSize: 22,
+    marginRight: 10,
   },
 
   code: {
-    fontSize: "15px",
+    fontSize: 15,
+    color: "#181725",
+    marginRight: 12,
+    fontWeight: "600",
   },
 
   phoneInput: {
     flex: 1,
-    minWidth: 0,
-    height: "35px",
-    border: "none",
-    outline: "none",
-    fontSize: "15px",
+    height: 45,
+    fontSize: 15,
+    color: "#181725",
+  },
+
+  continueButton: {
+    width: "100%",
+    height: 55,
+    backgroundColor: "#53B175",
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 25,
+  },
+
+  continueText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 
   socialText: {
     textAlign: "center",
     color: "#828282",
-    fontSize: "11px",
-    marginTop: "24px",
-    marginBottom: "25px",
+    fontSize: 12,
+    marginTop: 28,
+    marginBottom: 25,
   },
 
   googleButton: {
     width: "100%",
-    height: "48px",
+    height: 50,
     backgroundColor: "#4285F4",
-    border: "none",
-    borderRadius: "12px",
-    color: "white",
-    fontSize: "12px",
-    display: "flex",
+    borderRadius: 12,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: "30px",
-    cursor: "pointer",
-    marginBottom: "12px",
+    marginBottom: 12,
   },
 
   googleIcon: {
-    fontSize: "20px",
+    color: "#FFFFFF",
+    fontSize: 21,
     fontWeight: "bold",
+    marginRight: 20,
   },
 
   facebookButton: {
     width: "100%",
-    height: "48px",
+    height: 50,
     backgroundColor: "#2D4A9C",
-    border: "none",
-    borderRadius: "12px",
-    color: "white",
-    fontSize: "12px",
-    display: "flex",
+    borderRadius: 12,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: "25px",
-    cursor: "pointer",
   },
 
   facebookIcon: {
-    fontSize: "22px",
+    color: "#FFFFFF",
+    fontSize: 23,
     fontWeight: "bold",
+    marginRight: 20,
+  },
+
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 13,
+    fontWeight: "600",
   },
 
   homeIndicator: {
     position: "absolute",
-    bottom: "8px",
-    left: "35%",
-    width: "30%",
-    height: "4px",
+    bottom: 8,
+    alignSelf: "center",
+    width: 110,
+    height: 4,
     backgroundColor: "#D9D9D9",
-    borderRadius: "10px",
+    borderRadius: 10,
   },
-};
+
+});

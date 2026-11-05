@@ -1,69 +1,93 @@
-import React from "react";
 
-export default function SplashScreen() {
+import React, { useEffect } from "react";
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+} from "react-native";
+
+interface SplashScreenProps {
+  onContinue: () => void;
+}
+
+export default function SplashScreen({
+  onContinue,
+}: SplashScreenProps) {
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onContinue();
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, [onContinue]);
+
   return (
-    <div style={styles.container}>
-      <div style={styles.statusBar}>
-        <span>9:41</span>
-        <span>▴ ◉ ▰</span>
-      </div>
+    <View style={styles.container}>
+      <StatusBar
+        backgroundColor="#2DA653"
+        barStyle="light-content"
+      />
 
-      <div style={styles.logoContainer}>
-        <div style={styles.logo}>
-          <span style={styles.carrot}>🥕</span>
-          <span>nectar</span>
-        </div>
+      {/* Logo Container */}
 
-        <p style={styles.subtitle}>O N L I N E  G R O C E R I E S</p>
-      </div>
-    </div>
+      <View style={styles.logoContainer}>
+
+        <View style={styles.logo}>
+          <Text style={styles.carrot}>
+            🥕
+          </Text>
+
+          <Text style={styles.logoText}>
+            nectar
+          </Text>
+        </View>
+
+        <Text style={styles.subtitle}>
+          O N L I N E  G R O C E R I E S
+        </Text>
+
+      </View>
+    </View>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    maxWidth: "390px",
-    height: "844px",
-    margin: "0 auto",
+    flex: 1,
     backgroundColor: "#2DA653",
-    display: "flex",
-    flexDirection: "column",
-    fontFamily: "Arial, sans-serif",
-    color: "white",
-  },
-
-  statusBar: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "15px 25px",
-    fontSize: "14px",
   },
 
   logoContainer: {
     flex: 1,
-    display: "flex",
-    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
   },
 
   logo: {
-    display: "flex",
+    flexDirection: "row",
     alignItems: "center",
-    gap: "5px",
-    fontSize: "48px",
-    fontWeight: "bold",
-    letterSpacing: "-2px",
+    gap: 5,
   },
 
   carrot: {
-    fontSize: "36px",
+    fontSize: 42,
+  },
+
+  logoText: {
+    fontSize: 48,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    letterSpacing: -2,
   },
 
   subtitle: {
-    fontSize: "9px",
-    marginTop: "-5px",
-    marginLeft: "40px",
+    fontSize: 10,
+    color: "#FFFFFF",
+    marginTop: 2,
+    marginLeft: 40,
+    letterSpacing: 1,
   },
-};
+});

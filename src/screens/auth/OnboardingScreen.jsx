@@ -1,95 +1,126 @@
+
 import React from "react";
 
-export default function OnboardingScreen() {
+import {
+  View,
+  Text,
+  ImageBackground,
+  TouchableOpacity,
+  StyleSheet,
+  StatusBar,
+} from "react-native";
+
+interface OnboardingScreenProps {
+  onContinue: () => void;
+}
+
+export default function OnboardingScreen({
+  onContinue,
+}: OnboardingScreenProps) {
   return (
-    <div style={styles.container}>
-      <div style={styles.statusBar}>
-        <span>9:41</span>
-        <span>▴ ◉ ▰</span>
-      </div>
+    <View style={styles.container}>
+      <StatusBar
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
 
-      <div style={styles.content}>
-        <div style={styles.logo}>🥕</div>
+      <ImageBackground
+        source={{
+          uri: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=800",
+        }}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        {/* Dark Overlay */}
 
-        <h1 style={styles.title}>
-          Welcome
-          <br />
-          to our store
-        </h1>
+        <View style={styles.overlay} />
 
-        <p style={styles.description}>
-          Get your groceries in as fast as one hour
-        </p>
+        {/* Main Content */}
 
-        <button
-          style={styles.button}
-          onClick={() => alert("Welcome to Nectar!")}
-        >
-          Get Started
-        </button>
-      </div>
-    </div>
+        <View style={styles.content}>
+          <Text style={styles.logo}>🥕</Text>
+
+          <Text style={styles.title}>
+            Welcome{"\n"}
+            to our store
+          </Text>
+
+          <Text style={styles.description}>
+            Get your groceries in as fast as one hour
+          </Text>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={onContinue}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.buttonText}>
+              Get Started
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </View>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    maxWidth: "390px",
-    height: "844px",
-    margin: "0 auto",
-    position: "relative",
-    overflow: "hidden",
-    fontFamily: "Arial, sans-serif",
-    color: "white",
-    backgroundImage:
-      "linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=800')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    flex: 1,
+    backgroundColor: "#FFFFFF",
   },
 
-  statusBar: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "15px 25px",
-    fontSize: "14px",
+  background: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "flex-end",
+  },
+
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.55)",
   },
 
   content: {
-    position: "absolute",
-    bottom: "55px",
-    left: "20px",
-    right: "20px",
-    textAlign: "center",
+    paddingHorizontal: 20,
+    paddingBottom: 65,
+    alignItems: "center",
   },
 
   logo: {
-    fontSize: "38px",
-    marginBottom: "10px",
+    fontSize: 48,
+    marginBottom: 15,
   },
 
   title: {
-    fontSize: "34px",
-    lineHeight: "1.2",
+    fontSize: 36,
+    lineHeight: 44,
     fontWeight: "bold",
-    margin: "0",
+    color: "#FFFFFF",
+    textAlign: "center",
   },
 
   description: {
-    fontSize: "14px",
+    fontSize: 15,
     color: "#E0E0E0",
-    marginTop: "12px",
-    marginBottom: "28px",
+    textAlign: "center",
+    marginTop: 15,
+    marginBottom: 30,
   },
 
   button: {
     width: "100%",
-    padding: "17px",
+    height: 60,
     backgroundColor: "#53B175",
-    color: "white",
-    border: "none",
-    borderRadius: "15px",
-    fontSize: "16px",
-    cursor: "pointer",
+    borderRadius: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
-};
+
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 17,
+    fontWeight: "bold",
+  },
+});

@@ -1,134 +1,207 @@
-import React, { useState } from "react";
 
-function LoginScreen({ onContinue }) {
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Keyboard,
+} from "react-native";
+
+interface LoginScreenProps {
+  onContinue: (phone: string) => void;
+}
+
+export default function LoginScreen({
+  onContinue,
+}: LoginScreenProps) {
   const [phone, setPhone] = useState("");
 
   const handleContinue = () => {
     if (phone.length < 10) {
-      alert("Телефон нөмірін дұрыс енгізіңіз!");
+      Alert.alert(
+        "Ошибка",
+        "Телефон нөмірін дұрыс енгізіңіз!"
+      );
       return;
     }
 
+    Keyboard.dismiss();
     onContinue(phone);
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <div style={styles.icon}>🛒</div>
+    <View style={styles.container}>
+      <View style={styles.card}>
 
-        <h1 style={styles.title}>Get your groceries</h1>
-        <p style={styles.subtitle}>with nectar</p>
+        <Text style={styles.icon}>🛒</Text>
 
-        <h2 style={styles.heading}>Login</h2>
+        <Text style={styles.title}>
+          Get your groceries
+        </Text>
 
-        <p style={styles.text}>
+        <Text style={styles.subtitle}>
+          with nectar
+        </Text>
+
+        <Text style={styles.heading}>
+          Login
+        </Text>
+
+        <Text style={styles.description}>
           Enter your mobile number to continue
-        </p>
+        </Text>
 
-        <label style={styles.label}>Phone Number</label>
+        <Text style={styles.label}>
+          Phone Number
+        </Text>
 
-        <div style={styles.phoneBox}>
-          <span style={styles.code}>+7</span>
+        <View style={styles.phoneBox}>
+          <Text style={styles.code}>+7</Text>
 
-          <input
-            type="tel"
-            placeholder="Enter phone number"
-            value={phone}
-            onChange={(e) =>
-              setPhone(e.target.value.replace(/\D/g, ""))
-            }
+          <TextInput
             style={styles.input}
+            placeholder="Enter phone number"
+            placeholderTextColor="#999"
+            keyboardType="phone-pad"
+            value={phone}
+            onChangeText={(value) =>
+              setPhone(value.replace(/\D/g, "").slice(0, 10))
+            }
+            maxLength={10}
           />
-        </div>
+        </View>
 
-        <button onClick={handleContinue} style={styles.button}>
-          Continue
-        </button>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleContinue}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>
+            Continue
+          </Text>
+        </TouchableOpacity>
 
-        <p style={styles.footer}>
-          Don't have an account? <span>Sign Up</span>
-        </p>
-      </div>
-    </div>
+        <Text style={styles.footer}>
+          Don't have an account?{" "}
+          <Text style={styles.signUp}>
+            Sign Up
+          </Text>
+        </Text>
+
+      </View>
+    </View>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
-    minHeight: "100vh",
-    backgroundColor: "#f5f5f5",
-    display: "flex",
+    flex: 1,
+    backgroundColor: "#F5F5F5",
     justifyContent: "center",
     alignItems: "center",
-    fontFamily: "Arial, sans-serif",
+    padding: 20,
   },
+
   card: {
-    width: "350px",
-    backgroundColor: "white",
-    padding: "30px",
-    borderRadius: "20px",
-    textAlign: "center",
-    boxShadow: "0 4px 15px rgba(0,0,0,0.08)",
+    width: "100%",
+    maxWidth: 400,
+    backgroundColor: "#FFFFFF",
+    padding: 25,
+    borderRadius: 20,
+    alignItems: "center",
+    elevation: 5,
   },
+
   icon: {
-    fontSize: "55px",
+    fontSize: 55,
+    marginBottom: 10,
   },
+
   title: {
-    fontSize: "27px",
+    fontSize: 27,
+    fontWeight: "bold",
     color: "#181725",
+    textAlign: "center",
   },
+
   subtitle: {
     color: "#53B175",
-    fontSize: "18px",
+    fontSize: 18,
+    marginTop: 5,
   },
+
   heading: {
-    marginTop: "40px",
-    textAlign: "left",
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#181725",
+    alignSelf: "flex-start",
+    marginTop: 40,
   },
-  text: {
+
+  description: {
     color: "#7C7C7C",
-    textAlign: "left",
-    fontSize: "14px",
+    fontSize: 14,
+    alignSelf: "flex-start",
+    marginTop: 10,
   },
+
   label: {
-    display: "block",
-    textAlign: "left",
-    marginTop: "25px",
+    fontSize: 15,
     fontWeight: "bold",
+    alignSelf: "flex-start",
+    marginTop: 25,
+    color: "#181725",
   },
+
   phoneBox: {
-    display: "flex",
+    flexDirection: "row",
     alignItems: "center",
-    borderBottom: "1px solid #ddd",
-    marginTop: "10px",
+    borderBottomWidth: 1,
+    borderBottomColor: "#DDDDDD",
+    width: "100%",
+    marginTop: 10,
   },
+
   code: {
-    padding: "12px",
+    padding: 12,
     fontWeight: "bold",
+    fontSize: 16,
+    color: "#181725",
   },
+
   input: {
-    border: "none",
-    outline: "none",
-    padding: "12px",
     flex: 1,
-    fontSize: "15px",
+    padding: 12,
+    fontSize: 15,
+    color: "#181725",
   },
+
   button: {
     width: "100%",
-    padding: "16px",
-    marginTop: "35px",
+    padding: 16,
+    marginTop: 35,
     backgroundColor: "#53B175",
-    color: "white",
-    border: "none",
-    borderRadius: "15px",
-    fontSize: "16px",
-    cursor: "pointer",
+    borderRadius: 15,
+    alignItems: "center",
   },
-  footer: {
-    marginTop: "25px",
-    fontSize: "13px",
-  },
-};
 
-export default LoginScreen;
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  footer: {
+    marginTop: 25,
+    fontSize: 13,
+    color: "#7C7C7C",
+  },
+
+  signUp: {
+    color: "#53B175",
+    fontWeight: "bold",
+  },
+});
