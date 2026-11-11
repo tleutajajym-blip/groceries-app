@@ -1,147 +1,44 @@
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import React, { useState } from "react";
+// 1. Auth (Авторизация) бөлімінің экрандары
+import SplashScreen from './src/screens/auth/SplashScreen';
+import OnboardingScreen from './src/screens/auth/OnboardingScreen';
+import SignInScreen from './src/screens/auth/SignInScreen';
+import LoginScreen from './src/screens/auth/LoginScreen';
+import VerificationScreen from './src/screens/auth/VerificationScreen';
 
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  StatusBar,
-} from "react-native";
+// 2. Cart (Себет және тапсырыс) бөлімінің экрандары
+import CardScreen from './src/screens/cart/CardScreen';
+import ChecoutScreen from './src/screens/cart/ChecoutScreen';
+import PaymentScreen from './src/screens/cart/PaymentScreen';
+import OrderSuccessScreen from './src/screens/cart/OrderSuccessScreen';
+import OrdersScreen from './src/screens/cart/OrdersScreen';
 
-import SplashScreen from "./screens/auth/SplashScreen";
-import OnboardingScreen from "./screens/auth/OnboardingScreen";
-import SignInScreen from "./screens/auth/SignupScreen";
-import VerificationScreen from "./screens/auth/VerificationScreen";
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [page, setPage] = useState(0);
-  const [phone, setPhone] = useState("");
-
-  // SPLASH SCREEN
-  if (page === 0) {
-    return (
-      <SplashScreen
-        onContinue={() => setPage(1)}
-      />
-    );
-  }
-
-  // ONBOARDING SCREEN
-  if (page === 1) {
-    return (
-      <OnboardingScreen
-        onContinue={() => setPage(2)}
-      />
-    );
-  }
-
-  // SIGN IN SCREEN
-  if (page === 2) {
-    return (
-      <SignInScreen
-        onContinue={(phoneNumber) => {
-          setPhone(phoneNumber);
-          setPage(3);
-        }}
-      />
-    );
-  }
-
-  // VERIFICATION SCREEN
-  if (page === 3) {
-    return (
-      <VerificationScreen
-        phone={phone}
-        onBack={() => setPage(2)}
-        onVerify={(code) => {
-          console.log("Phone:", phone);
-          console.log("Code:", code);
-
-          setPage(4);
-        }}
-      />
-    );
-  }
-
-  // WELCOME SCREEN
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
-
-      <Text style={styles.icon}>🎉</Text>
-
-      <Text style={styles.title}>
-        Welcome to Nectar!
-      </Text>
-
-      <Text style={styles.description}>
-        Your phone number:
-      </Text>
-
-      <Text style={styles.phone}>
-        {phone}
-      </Text>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setPage(2)}
+    <NavigationContainer>
+      <Stack.Navigator 
+        initialRouteName="Splash" 
+        screenOptions={{ headerShown: false }}
       >
-        <Text style={styles.buttonText}>
-          Continue Shopping
-        </Text>
-      </TouchableOpacity>
-    </View>
+        {/* Auth Stack */}
+        <Stack.Screen name="Splash" component={SplashScreen} />
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        <Stack.Screen name="SignIn" component={SignInScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Verification" component={VerificationScreen} />
+
+        {/* Cart & Checkout Stack */}
+        <Stack.Screen name="Card" component={CardScreen} />
+        <Stack.Screen name="Checkout" component={ChecoutScreen} />
+        <Stack.Screen name="Payment" component={PaymentScreen} />
+        <Stack.Screen name="OrderSuccess" component={OrderSuccessScreen} />
+        <Stack.Screen name="Orders" component={OrdersScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 25,
-  },
-
-  icon: {
-    fontSize: 70,
-    marginBottom: 20,
-  },
-
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#181725",
-    textAlign: "center",
-  },
-
-  description: {
-    fontSize: 15,
-    color: "#7C7C7C",
-    marginTop: 20,
-  },
-
-  phone: {
-    fontSize: 18,
-    color: "#53B175",
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-
-  button: {
-    width: "100%",
-    height: 55,
-    backgroundColor: "#53B175",
-    borderRadius: 15,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 35,
-  },
-
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
