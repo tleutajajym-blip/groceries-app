@@ -1,34 +1,35 @@
+
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Auth Screens
-import SplashScreen from './src/screens/auth/SplashScreen';
-import OnboardingScreen from './src/screens/auth/OnboardingScreen';
-import SignInScreen from './src/screens/auth/SignInScreen';
-import LoginScreen from './src/screens/auth/LoginScreen';
-import VerificationScreen from './src/screens/auth/VerificationScreen';
+import SplashScreen from './screens/auth/SplashScreen';
+import OnboardingScreen from './screens/auth/OnboardingScreen';
+import SignInScreen from './screens/auth/SignupScreen';
+import LoginScreen from './screens/auth/LoginScreen';
+import VerificationScreen from './screens/auth/VerificationScreen';
 
 // Home Screens
-import HomeScreen from './src/screens/home/HomeScreen';
-import ExploreScreen from './src/screens/home/ExploreScreen';
-import CategoriesScreen from './src/screens/home/CategoriesScreen';
-import SearchScreen from './src/screens/home/SearchScreen';
-import ProductDetailsScreen from './src/screens/home/ProductDetailsScreen';
-import FavouriteScreen from './src/screens/home/FavouriteScreen';
+import HomeScreen from './screens/home/HomeScreen';
+import ExploreScreen from './screens/home/ExploreScreen';
+import CategoriesScreen from './screens/home/CategoriesScreen';
+import SearchScreen from './screens/home/SearchScreen';
+import ProductDetailsScreen from './screens/home/ProductDetailsScreen';
+import FavouriteScreen from './screens/home/FavouriteScreen';
 
 // Cart Screens
-import CardScreen from './src/screens/cart/CardScreen';
-import ChecoutScreen from './src/screens/cart/ChecoutScreen';
-import PaymentScreen from './src/screens/cart/PaymentScreen';
-import OrderSuccessScreen from './src/screens/cart/OrderSuccessScreen';
-import OrdersScreen from './src/screens/cart/OrdersScreen';
+import CardScreen from './screens/cart/CardScreen';
+import ChecoutScreen from './screens/cart/ChecoutScreen';
+import PaymentScreen from './screens/cart/PaymentScreen';
+import OrderSuccessScreen from './screens/cart/OrderSuccessScreen';
+import OrdersScreen from './screens/cart/OrdersScreen';
 
 // User Screens
-import AddressScreen from './src/screens/user/AddressScreen';
-import LocationScreen from './src/screens/user/LocationScreen';
-import NotificationScreen from './src/screens/user/NotificationScreen';
-import ProfileScreen from './src/screens/user/ProfikeScreeb';
+import AddressScreen from './screens/user/AddressScreen';
+import LocationScreen from './screens/user/LocationScreen';
+import NotificationScreen from './screens/user/NotificationScreen';
+import ProfileScreen from './screens/user/ProfikeScreeb';
 
 const Stack = createNativeStackNavigator();
 
