@@ -10,17 +10,17 @@ import {
   Keyboard,
 } from "react-native";
 
-interface LoginScreenProps {
-  onContinue: (phone: string) => void;
-}
-
 export default function LoginScreen({
   onContinue,
-}: LoginScreenProps) {
+  onSignUp,
+}) {
   const [phone, setPhone] = useState("");
 
   const handleContinue = () => {
-    if (phone.length < 10) {
+    const digits = phone.replace(/\D/g, "");
+    const localPhone = digits.startsWith("0") ? digits.slice(1) : digits;
+
+    if (localPhone.length !== 10) {
       Alert.alert(
         "Ошибка",
         "Телефон нөмірін дұрыс енгізіңіз!"
@@ -29,7 +29,7 @@ export default function LoginScreen({
     }
 
     Keyboard.dismiss();
-    onContinue(phone);
+    onContinue("+880" + localPhone);
   };
 
   return (
@@ -59,7 +59,7 @@ export default function LoginScreen({
         </Text>
 
         <View style={styles.phoneBox}>
-          <Text style={styles.code}>+7</Text>
+          <Text style={styles.code}>+880</Text>
 
           <TextInput
             style={styles.input}
@@ -68,9 +68,9 @@ export default function LoginScreen({
             keyboardType="phone-pad"
             value={phone}
             onChangeText={(value) =>
-              setPhone(value.replace(/\D/g, "").slice(0, 10))
+              setPhone(value.replace(/\D/g, "").slice(0, 11))
             }
-            maxLength={10}
+            maxLength={11}
           />
         </View>
 
@@ -85,8 +85,8 @@ export default function LoginScreen({
         </TouchableOpacity>
 
         <Text style={styles.footer}>
-          Don't have an account?{" "}
-          <Text style={styles.signUp}>
+          Don&apos;t have an account?{" "}
+          <Text style={styles.signUp} onPress={onSignUp}>
             Sign Up
           </Text>
         </Text>

@@ -8,6 +8,7 @@ import {
   TextInput,
   SafeAreaView,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -15,6 +16,15 @@ export default function AddressScreen({ navigation }) {
   const [address, setAddress] = React.useState('');
   const [city, setCity] = React.useState('');
   const [zip, setZip] = React.useState('');
+
+  const saveAddress = () => {
+    if (!address.trim() || !city.trim() || !zip.trim()) {
+      Alert.alert('Missing details', 'Please enter your address, city, and ZIP code.');
+      return;
+    }
+
+    navigation?.goBack();
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -62,7 +72,7 @@ export default function AddressScreen({ navigation }) {
           onChangeText={setZip}
         />
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={saveAddress}>
           <Text style={styles.buttonText}>Save Address</Text>
         </TouchableOpacity>
       </ScrollView>

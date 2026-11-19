@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function ChecoutScreen({ navigation }) {
+export default function ChecoutScreen({ navigation, route }) {
+  const total = Number(route?.params?.total || 0).toFixed(2);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -15,8 +17,8 @@ export default function ChecoutScreen({ navigation }) {
 
       <View style={styles.content}>
         <Text style={styles.sectionLabel}>Delivery Address</Text>
-        <TouchableOpacity style={styles.row}>
-          <Text style={styles.rowText}>Select Method</Text>
+        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate('Address')}>
+          <Text style={styles.rowText}>Select delivery address</Text>
           <Ionicons name="chevron-forward" size={20} color="#181725" />
         </TouchableOpacity>
 
@@ -29,7 +31,7 @@ export default function ChecoutScreen({ navigation }) {
 
         <Text style={styles.sectionLabel}>Total Cost</Text>
         <View style={styles.row}>
-          <Text style={styles.rowText}>$10.98</Text>
+          <Text style={styles.rowText}>${total}</Text>
         </View>
       </View>
 

@@ -14,20 +14,20 @@ import {
   Keyboard,
 } from "react-native";
 
-interface SignInScreenProps {
-  onContinue: (phone: string) => void;
-}
-
 export default function SignInScreen({
   onContinue,
-}: SignInScreenProps) {
+  onLogin,
+}) {
   const [phone, setPhone] = useState("");
 
   // Continue Button
   const handleContinue = () => {
     const cleanPhone = phone.replace(/\D/g, "");
+    const localPhone = cleanPhone.startsWith("0")
+      ? cleanPhone.slice(1)
+      : cleanPhone;
 
-    if (cleanPhone.length < 10) {
+    if (localPhone.length !== 10) {
       Alert.alert(
         "Invalid Phone Number",
         "Please enter a valid phone number."
@@ -37,8 +37,7 @@ export default function SignInScreen({
 
     Keyboard.dismiss();
 
-    // Send phone number to VerificationScreen
-    onContinue("+880" + cleanPhone);
+    onContinue("+880" + localPhone);
   };
 
   // Google Login
@@ -176,6 +175,13 @@ export default function SignInScreen({
               Continue with Facebook
             </Text>
           </TouchableOpacity>
+
+          <View style={styles.loginPrompt}>
+            <Text style={styles.promptText}>Already have an account? </Text>
+            <TouchableOpacity onPress={onLogin}>
+              <Text style={styles.loginLink}>Log in</Text>
+            </TouchableOpacity>
+          </View>
 
         </View>
       </ScrollView>
@@ -322,6 +328,23 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 13,
     fontWeight: "600",
+  },
+
+  loginPrompt: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 24,
+  },
+
+  promptText: {
+    color: "#7C7C7C",
+    fontSize: 13,
+  },
+
+  loginLink: {
+    color: "#53B175",
+    fontSize: 13,
+    fontWeight: "bold",
   },
 
   homeIndicator: {

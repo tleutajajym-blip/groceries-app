@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -8,8 +8,42 @@ const initialCartItems = [
   { id: '3', name: 'Ginger', size: '250gm, Price', price: 2.99, quantity: 1 },
 ];
 
-export default function CardScreen({ navigation }) {
+function toCartItem(product) {
+  const price = Number(String(product.price).replace(/[^0-9.]/g, ""));
+  return {
+    id: `${product.id || "product"}:${product.name}`,
+    name: product.name,
+    size: product.unit || product.size || "1 item",
+    price: Number.isFinite(price) ? price : 0,
+    quantity: product.quantity || 1,
+  };
+}
+
+function addProduct(items, product) {
+  const newItem = toCartItem(product);
+  const existing = items.find((item) => item.name === newItem.name);
+  return existing
+    ? items.map((item) =>
+        item.name === newItem.name
+          ? { ...item, quantity: item.quantity + newItem.quantity }
+          : item
+      )
+    : [...items, newItem];
+}
+
+export default function CardScreen({ navigation, route }) {
+  const product = route?.params?.product;
   const [cartItems, setCartItems] = useState(initialCartItems);
+  const [lastProduct, setLastProduct] = useState(null);
+
+  if (product && product !== lastProduct) {
+    setLastProduct(product);
+    setCartItems((items) => addProduct(items, product));
+  }
+
+  useEffect(() => {
+    if (product) navigation.setParams({ product: undefined });
+  }, [navigation, product]);
 
   const increaseQuantity = (id) => {
     setCartItems(cartItems.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
@@ -65,7 +99,10 @@ export default function CardScreen({ navigation }) {
       />
 
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.checkoutButton} onPress={() => navigation.navigate('Checkout')}>
+        <TouchableOpacity
+          style={styles.checkoutButton}
+          onPress={() => navigation.navigate('Checkout', { total: totalPrice })}
+        >
           <Text style={styles.checkoutButtonText}>Go to Checkout</Text>
           <View style={styles.totalBadge}>
             <Text style={styles.totalBadgeText}>${totalPrice.toFixed(2)}</Text>

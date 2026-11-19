@@ -17,7 +17,10 @@ export default function OrderSuccessScreen({ navigation }) {
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Orders')}>
           <Text style={styles.buttonText}>Track Order</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.backHomeButton} onPress={() => navigation.navigate('Card')}>
+        <TouchableOpacity
+          style={styles.backHomeButton}
+          onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Home' }] })}
+        >
           <Text style={styles.backHomeText}>Back to home</Text>
         </TouchableOpacity>
       </View>

@@ -127,7 +127,11 @@ export default function ProductDetailsScreen({ route, navigation }) {
         <TouchableOpacity
           style={styles.ctaButton}
           activeOpacity={0.85}
-          onPress={() => navigation?.navigate?.("Card")}
+          onPress={() =>
+            navigation?.navigate?.("Card", {
+              product: { ...product, quantity: qty },
+            })
+          }
         >
           <Text style={styles.ctaText}>Add To Basket</Text>
         </TouchableOpacity>

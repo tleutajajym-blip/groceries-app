@@ -50,7 +50,7 @@ export default function LocationScreen({ navigation }) {
         <Text style={styles.currentText}>Use Current Location</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation?.goBack()}>
         <Text style={styles.buttonText}>Confirm Location</Text>
       </TouchableOpacity>
     </SafeAreaView>

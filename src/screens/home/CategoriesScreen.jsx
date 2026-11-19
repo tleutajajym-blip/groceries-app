@@ -85,7 +85,15 @@ export default function CategoriesScreen({ route, navigation }) {
             <Text style={styles.unit}>{item.unit}</Text>
             <View style={styles.bottom}>
               <Text style={styles.price}>{item.price}</Text>
-              <TouchableOpacity style={styles.addBtn} onPress={() => addToCart(item.id)}>
+              <TouchableOpacity
+                style={styles.addBtn}
+                onPress={() => {
+                  addToCart(item.id);
+                  navigation?.navigate?.("Card", {
+                    product: { ...item, quantity: 1 },
+                  });
+                }}
+              >
                 <Text style={styles.addText}>{counts[item.id] ? counts[item.id] : "+"}</Text>
               </TouchableOpacity>
             </View>

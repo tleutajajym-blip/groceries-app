@@ -10,13 +10,9 @@ import {
   StatusBar,
 } from "react-native";
 
-interface OnboardingScreenProps {
-  onContinue: () => void;
-}
-
 export default function OnboardingScreen({
   onContinue,
-}: OnboardingScreenProps) {
+}) {
   return (
     <View style={styles.container}>
       <StatusBar

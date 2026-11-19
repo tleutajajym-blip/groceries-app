@@ -87,7 +87,12 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.price}>{item.price}</Text>
         <TouchableOpacity
           style={styles.addButton}
-          onPress={() => addItem(item.id)}
+          onPress={() => {
+            addItem(item.id);
+            navigation?.navigate?.("Card", {
+              product: { ...item, quantity: 1 },
+            });
+          }}
           activeOpacity={0.8}
         >
           <Text style={styles.addButtonText}>

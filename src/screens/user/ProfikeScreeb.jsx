@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -17,6 +16,7 @@ export default function ProfileScreen({ navigation }) {
       title: 'My Orders',
       subtitle: 'View your order history',
       icon: 'cube-outline',
+      screen: 'Orders',
     },
     {
       title: 'My Address',
@@ -40,6 +40,7 @@ export default function ProfileScreen({ navigation }) {
       title: 'Payment Methods',
       subtitle: 'Manage your payment methods',
       icon: 'card-outline',
+      screen: 'Payment',
     },
     {
       title: 'Help Center',
@@ -58,7 +59,7 @@ export default function ProfileScreen({ navigation }) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>My Profile</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation?.navigate('Address')}>
             <Ionicons name="settings-outline" size={24} color="#181725" />
           </TouchableOpacity>
         </View>
@@ -73,7 +74,7 @@ export default function ProfileScreen({ navigation }) {
             <Text style={styles.email}>your@email.com</Text>
           </View>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation?.navigate('Address')}>
             <Ionicons name="create-outline" size={23} color="#53B175" />
           </TouchableOpacity>
         </View>
@@ -105,7 +106,10 @@ export default function ProfileScreen({ navigation }) {
           </TouchableOpacity>
         ))}
 
-        <TouchableOpacity style={styles.logout}>
+        <TouchableOpacity
+          style={styles.logout}
+          onPress={() => navigation?.reset({ index: 0, routes: [{ name: 'SignIn' }] })}
+        >
           <Ionicons name="log-out-outline" size={23} color="#53B175" />
           <Text style={styles.logoutText}>Log Out</Text>
           <Ionicons
