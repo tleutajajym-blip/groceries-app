@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 
 import {
@@ -8,14 +7,7 @@ import {
   StatusBar,
 } from "react-native";
 
-interface SplashScreenProps {
-  onContinue: () => void;
-}
-
-export default function SplashScreen({
-  onContinue,
-}: SplashScreenProps) {
-
+export default function SplashScreen({ onContinue }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onContinue();
@@ -34,7 +26,6 @@ export default function SplashScreen({
       {/* Logo Container */}
 
       <View style={styles.logoContainer}>
-
         <View style={styles.logo}>
           <Text style={styles.carrot}>
             🥕
@@ -48,7 +39,6 @@ export default function SplashScreen({
         <Text style={styles.subtitle}>
           O N L I N E  G R O C E R I E S
         </Text>
-
       </View>
     </View>
   );
